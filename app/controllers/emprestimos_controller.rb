@@ -15,15 +15,16 @@ class EmprestimosController < ApplicationController
 
   # POST /emprestimos
   def create
-    pessoa = Pessoa.find(params[:pessoa_id])
+    service = Emprestimos::CriarEmprestimo.new(
+      emprestimo_params[:livro_id],
+      emprestimo_params[:pessoa_id])
+    service.call
 
-    pessoa.pegar_livro(params[:livro_id])
-
-    render json: { message: "Empréstimo realizado com sucesso" }
+    render json: { message: "Empréstimo realizado com sucesso desta maneira" }
   rescue => e
     render json: { error: e.message }, status: :unprocessable_entity
   end
-  
+
   # PATCH/PUT /emprestimos/1
   def update
     if @emprestimo.update(emprestimo_params)
@@ -35,17 +36,18 @@ class EmprestimosController < ApplicationController
 
   # DELETE /emprestimos/1
   def destroy
-    @emprestimo.destroy!
+    service = Emprestimos::DevolverEmprestimo.new(@emprestimo.id)
+    service.call
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_emprestimo
-      @emprestimo = Emprestimo.find(params.expect(:id))
+      @emprestimo = Emprestimo.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def emprestimo_params
-      params.fetch(:emprestimo, {})
+      params.require(:emprestimo).permit(:livro_id, :pessoa_id)
     end
 end

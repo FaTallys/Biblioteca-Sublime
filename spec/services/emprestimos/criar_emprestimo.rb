@@ -1,13 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe Emprestimos::CriarEmprestimo do
-    it "consegue criar emprestimo" do
-      pessoa = create(:pessoa)
-      livro = create(:livro)
-      emprestimo = create(emprestimo)
+  subject(:criar_emprestimo) { described_class.new(livro.id, pessoa.id).call }
 
-      service = described_class.new(livro.id, pessoa.id)
+  let! (:livro) { create(:livro) }
+  let! (:pessoa) { create(:pessoa) }
 
-      expect { service.call }.to change { Emprestimo.count }.by(1)
+  context "quando quiser criar um emprestimo" do
+    it "entao cria o emprestimo" do
+      expect { criar_emprestimo }.to change(Emprestimo, :count).by(1)
     end
+  end
 end

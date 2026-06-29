@@ -10,11 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_17_011116) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_29_135309) do
   create_table "emprestimos", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.datetime "data_devolucao"
     t.integer "livro_id", null: false
     t.integer "pessoa_id", null: false
+    t.integer "status_devolucao", default: 0
     t.datetime "updated_at", null: false
     t.index ["livro_id"], name: "index_emprestimos_on_livro_id"
     t.index ["pessoa_id"], name: "index_emprestimos_on_pessoa_id"
@@ -26,6 +28,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_17_011116) do
     t.datetime "created_at", null: false
     t.boolean "emprestar"
     t.string "nome"
+    t.string "tipo_literario"
     t.datetime "updated_at", null: false
   end
 

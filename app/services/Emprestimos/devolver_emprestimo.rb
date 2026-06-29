@@ -5,7 +5,9 @@ module Emprestimos
     end
     def call
       livro.increment!(:copias, 1)
-      emprestimo.destroy!
+      Emprestimo.update(
+        status_devolucao: :devolvido,
+        data_devolucao: Time.current)
     end
 
     private

@@ -5,6 +5,10 @@ class LivrosController < ApplicationController
   def index
     @livros = Livro.all
 
+    if params[:tipo_literario].present?
+      @livros = @livros.where("tipo_literario LIKE ?", "%#{params[:tipo_literario]}%")
+    end
+
     render json: @livros
   end
 

@@ -5,6 +5,18 @@ class EmprestimosController < ApplicationController
   def index
     @emprestimos = Emprestimo.all
 
+    if params[:pessoa_id].present?
+      @emprestimos = @emprestimos.where(pessoa_id: params[:pessoa_id])
+    end
+
+    if params[:pessoa_nome].present?
+    @emprestimos = @emprestimos.joins(:pessoa).where("pessoas.nome LIKE ?", "%#{params[:pessoa_nome]}%")
+    end
+
+  if params[:livro_nome].present?
+    @emprestimos = @emprestimos.joins(:livro).where("livros.nome LIKE ?", "%#{params[:livro_nome]}%")
+  end
+
     render json: @emprestimos
   end
 
@@ -20,7 +32,7 @@ class EmprestimosController < ApplicationController
       emprestimo_params[:pessoa_id])
     service.call
 
-    render json: { message: "Empréstimo realizado com sucesso desta maneira" }
+    render json: { message: "Empréstimo realizado com sucesso " }
   rescue => e
     render json: { error: e.message }, status: :unprocessable_entity
   end

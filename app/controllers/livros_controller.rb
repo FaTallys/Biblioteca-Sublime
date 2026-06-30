@@ -5,9 +5,8 @@ class LivrosController < ApplicationController
   def index
     @livros = Livro.all
 
-    if params[:tipo_literario].present?
-      @livros = @livros.where("tipo_literario LIKE ?", "%#{params[:tipo_literario]}%")
-    end
+    @filtro = Livro.ransack(params[params[:filtro]])
+    @livros = @filtro.result
 
     render json: @livros
   end

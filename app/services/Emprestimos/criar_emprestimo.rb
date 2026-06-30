@@ -9,7 +9,8 @@ module Emprestimos
       livro.decrement!(:copias, 1)
       emprestimo = Emprestimo.create!(
         pessoa: pessoa,
-        livro: livro)
+        livro: livro,
+        status_devolucao: :ativo)
 
         emprestimo
     end

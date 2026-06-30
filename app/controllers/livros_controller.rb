@@ -50,6 +50,6 @@ class LivrosController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def livro_params
-      params.expect(livro: [ :autor, :nome, :copias, :emprestar ])
+      params.require(:livro).permit(:autor, :nome, :copias, :emprestar)
     end
 end

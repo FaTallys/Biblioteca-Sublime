@@ -10,29 +10,28 @@ class EmprestimosController < ApplicationController
     end
 
     if params[:pessoa_nome].present?
-    @emprestimos = @emprestimos.joins(:pessoa).where("pessoas.nome LIKE ?", "%#{params[:pessoa_nome]}%")
+      @emprestimos = @emprestimos.joins(:pessoa).where("pessoas.nome LIKE ?", "%#{params[:pessoa_nome]}%")
     end
 
-  if params[:livro_nome].present?
-    @emprestimos = @emprestimos.joins(:livro).where("livros.nome LIKE ?", "%#{params[:livro_nome]}%")
-  end
+    if params[:livro_nome].present?
+      @emprestimos = @emprestimos.joins(:livro).where("livros.nome LIKE ?", "%#{params[:livro_nome]}%")
+    end
 
-    render json: @emprestimos
+    render json: @emprestimos, status: :ok
   end
 
   # GET /emprestimos/1
   def show
-    render json: @emprestimo
+    render json: @emprestimo, status: :ok
   end
 
   # POST /emprestimos
   def create
-    service = Emprestimos::CriarEmprestimo.new(
+    Emprestimos::CriarEmprestimo.new(
       emprestimo_params[:livro_id],
-      emprestimo_params[:pessoa_id])
-    service.call
+      emprestimo_params[:pessoa_id]).call
 
-    render json: { message: "Empréstimo realizado com sucesso " }
+    render json: { message: "Empréstimo realizado com sucesso " }, status: :created
   rescue => e
     render json: { error: e.message }, status: :unprocessable_entity
   end

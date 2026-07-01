@@ -3,9 +3,7 @@ class LivrosController < ApplicationController
 
   # GET /livros
   def index
-    @livros = Livro.all
-
-    @filtro = Livro.ransack(params[params[:filtro]])
+    @filtro = Livro.ransack(params[:filtro])
     @livros = @filtro.result
 
     render json: @livros

@@ -3,8 +3,6 @@ class EmprestimosController < ApplicationController
 
   # GET /emprestimos
   def index
-    @emprestimos = Emprestimo.all
-
     @filtro = Emprestimo.ransack(params[:filtro])
     @emprestimos = @filtro.result
 

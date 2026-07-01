@@ -7,9 +7,9 @@ class Emprestimo < ApplicationRecord
     alias_attribute :criado_em, :created_at
 
     def self.ransackable_attributes(auth_object = nil)
-      [ "id" ]
+      [ "id", "status_devolucao", "livro_id", "pessoa_id" ]
     end
-    def self.ransackable_association(auth_object = nil)
+    def self.ransackable_associations(auth_object = nil)
       [ "pessoa", "livro" ]
     end
 end

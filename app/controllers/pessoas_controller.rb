@@ -5,12 +5,13 @@ class PessoasController < ApplicationController
   def index
     @pessoas = Pessoa.all
 
-    render json: @pessoas
+    render json: PessoaBlueprint.render(@pessoas, view: :para_controller), status: :ok
   end
 
   # GET /pessoas/1
   def show
-    render json: @pessoa
+    @pessoa = Pessoa.find(params[:id])
+    render json: PessoaBlueprint.render(@pessoa, view: :para_controller)
   end
 
   # POST /pessoas

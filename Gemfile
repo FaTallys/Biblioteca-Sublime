@@ -43,6 +43,8 @@ group :development, :test do
 
   gem "ransack"
 
+  gem "blueprinter"
+
   gem "pry"
 
   gem "pry-byebug"

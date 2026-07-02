@@ -6,12 +6,12 @@ class LivrosController < ApplicationController
     @filtro = Livro.ransack(params[:filtro])
     @livros = @filtro.result
 
-    render json: @livros
+    render json: LivroBlueprint.render(@livros), status: :ok
   end
 
   # GET /livros/1
   def show
-    render json: @livro
+    render json: LivroBlueprint.render(@livro, view: :para_controller)
   end
 
   # POST /livros

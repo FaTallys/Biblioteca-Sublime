@@ -6,12 +6,12 @@ class EmprestimosController < ApplicationController
     @filtro = Emprestimo.ransack(params[:filtro])
     @emprestimos = @filtro.result
 
-    render json: @emprestimos, status: :ok
+    render json: EmprestimoBlueprint.render(@emprestimos, view: :normal), status: :ok
   end
 
   # GET /emprestimos/1
   def show
-    render json: @emprestimo, status: :ok
+    render json: EmprestimoBlueprint.render(@emprestimo, view: :normal), status: :ok
   end
 
   # POST /emprestimos

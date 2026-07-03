@@ -7,11 +7,7 @@ class EmprestimoBlueprint < Blueprinter::Base
     association :pessoa, blueprint: PessoaBlueprint
   end
 
-  view :para_livro do
+  view :para_livro_ou_pessoa do
    fields :id
-  end
-
-  view :para_pessoa do
-    fields :id
   end
 end

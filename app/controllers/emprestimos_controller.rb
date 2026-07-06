@@ -3,7 +3,7 @@ class EmprestimosController < ApplicationController
 
   # GET /emprestimos
   def index
-    @filtro = Emprestimo.ransack(params[:filtro])
+    @filtro = Emprestimo.ransack(params[:q])
     @emprestimos = @filtro.result
 
     render json: EmprestimoBlueprint.render(@emprestimos, view: :normal), status: :ok
@@ -16,28 +16,33 @@ class EmprestimosController < ApplicationController
 
   # POST /emprestimos
   def create
-    service = Emprestimos::CriarEmprestimo.new(
-      emprestimo_params[:livro_id],
-      emprestimo_params[:pessoa_id]).call
-
-    render json: service, status: :created
+    validador = EmprestimoContrato.new.call(params[:emprestimo].to_h)
+    if validador.success?
+      @emprestimo = Emprestimos::CriarEmprestimo.new(
+        validador.to_h[:livro_id],
+        validador.to_h[:pessoa_id]).call
+        render json: EmprestimoBlueprint.render(@emprestimo, view: :normal), status: :created
+    else
+      render json: { erros: validador.errors.to_h }, status: :unprocessable_entity
+    end
   rescue => e
-    render json: { error: e.message }, status: :unprocessable_entity
+    render json: { erro_sistema: e.message }, status: :internal_server_error
   end
 
   # PATCH/PUT /emprestimos/1
   def update
-    if @emprestimo.update(emprestimo_params)
-      render json: @emprestimo
+    validador = EmprestimoContrato.new.call(params[:emprestimo].to_h)
+    if validador.success?
+      @emprestimo.update!(validador.to_h)
+      render json: EmprestimoBlueprint.render(@emprestimo, view: :normal)
     else
-      render json: @emprestimo.errors, status: :unprocessable_content
+      render json: { erros: validador.errors.to_h }, status: :unprocessable_entity
     end
   end
 
   # DELETE /emprestimos/1
   def destroy
-    service = Emprestimos::DevolverEmprestimo.new(@emprestimo.id)
-    service.call
+  Emprestimos::DevolverEmprestimo.new(@emprestimo.id).call
   end
 
   private

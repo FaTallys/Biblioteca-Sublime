@@ -3,7 +3,8 @@ class PessoasController < ApplicationController
 
   # GET /pessoas
   def index
-    @pessoas = Pessoa.all
+    @filtro = Pessoa.ransack(params[:q])
+    @pessoas = @filtro.result
 
     render json: PessoaBlueprint.render(@pessoas, view: :para_controller), status: :ok
   end
@@ -16,27 +17,32 @@ class PessoasController < ApplicationController
 
   # POST /pessoas
   def create
-    @pessoa = Pessoa.new(pessoa_params)
-
-    if @pessoa.save
-      render json: @pessoa, status: :created, location: @pessoa
+    validador = PessoaContrato.new.call(params[:pessoa].to_h)
+    if validador.success?
+      @pessoa = Pessoa.create!(validador.to_h)
+      render json: PessoaBlueprint.render(@pessoa, view: :para_controller), status: :created
     else
-      render json: @pessoa.errors, status: :unprocessable_content
+      render json: { erros: validador.errors.to_h }, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /pessoas/1
   def update
-    if @pessoa.update(pessoa_params)
-      render json: @pessoa
+    validador = PessoaContrato.new.call(params[:pessoa].to_h)
+
+    if validador.success?
+      @pessoa.update!(validador.to_h)
+      render json: PessoaBlueprint.render(@pessoa, view: :para_controller), status: :ok
     else
-      render json: @pessoa.errors, status: :unprocessable_content
+      render json: { erros: validador.errors.to_h }, status: :unprocessable_entity
     end
   end
 
   # DELETE /pessoas/1
   def destroy
     @pessoa.destroy!
+
+    head :no_content
   end
 
   private

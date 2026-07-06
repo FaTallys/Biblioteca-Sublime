@@ -3,7 +3,7 @@ class LivrosController < ApplicationController
 
   # GET /livros
   def index
-    @filtro = Livro.ransack(params[:filtro])
+    @filtro = Livro.ransack(params[:q])
     @livros = @filtro.result
 
     render json: LivroBlueprint.render(@livros), status: :ok
@@ -16,27 +16,31 @@ class LivrosController < ApplicationController
 
   # POST /livros
   def create
-    @livro = Livro.new(livro_params)
-
-    if @livro.save
-      render json: @livro, status: :created, location: @livro
+    validador = LivroContrato.new.call(params[:livro].to_h)
+    if validador.success?
+      @livro = Livro.create!(validador.to_h)
+      render json: LivroBlueprint.render(@livro), status: :created
     else
-      render json: @livro.errors, status: :unprocessable_content
+      render json: { erros: validador.errors.to_h }, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /livros/1
   def update
-    if @livro.update(livro_params)
-      render json: @livro
+    validador = LivroContrato.new.call(params[:livro].to_h)
+    if validador.success?
+      @livro.update!(validador.to_h)
+      render json: LivroBlueprint.render(@livro), status: :ok
     else
-      render json: @livro.errors, status: :unprocessable_content
+      render json: { erros: validador.errors.to_h }, status: :unprocessable_entity
     end
   end
 
   # DELETE /livros/1
   def destroy
     @livro.destroy!
+
+    head :no_content
   end
 
   private

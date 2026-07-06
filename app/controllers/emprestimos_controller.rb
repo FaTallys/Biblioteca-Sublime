@@ -16,7 +16,7 @@ class EmprestimosController < ApplicationController
 
   # POST /emprestimos
   def create
-    validador = EmprestimoContrato.new.call(params[:emprestimo].to_h)
+    validador = EmprestimoContrato.new.call(emprestimo_params.to_h)
     if validador.success?
       @emprestimo = Emprestimos::CriarEmprestimo.new(
         validador.to_h[:livro_id],
@@ -31,7 +31,7 @@ class EmprestimosController < ApplicationController
 
   # PATCH/PUT /emprestimos/1
   def update
-    validador = EmprestimoContrato.new.call(params[:emprestimo].to_h)
+    validador = EmprestimoContrato.new.call(emprestimo_params.to_h)
     if validador.success?
       @emprestimo.update!(validador.to_h)
       render json: EmprestimoBlueprint.render(@emprestimo, view: :normal)
@@ -43,6 +43,7 @@ class EmprestimosController < ApplicationController
   # DELETE /emprestimos/1
   def destroy
   Emprestimos::DevolverEmprestimo.new(@emprestimo.id).call
+  head :no_content
   end
 
   private

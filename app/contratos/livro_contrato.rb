@@ -1,11 +1,13 @@
 class LivroContrato < Dry::Validation::Contract
-  required(:nome).filled(String)
-  required(:autor).filled(String)
-  required(:tipo_literario).filled(String)
-  required(:copias).filed(Integer)
+  params do
+    required(:nome).filled(:string)
+    required(:autor).filled(:string)
+    required(:tipo_literario).filled(:string)
+    required(:copias).filled(:integer)
+  end
 
   rule (:copias) do
-    if value.size < 0
+    if value < 0
       key.failure("Numero de copias tem que ser maior ou igual a zero")
     end
   end

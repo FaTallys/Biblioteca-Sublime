@@ -6,21 +6,21 @@ class PessoasController < ApplicationController
     @filtro = Pessoa.ransack(params[:q])
     @pessoas = @filtro.result
 
-    render json: PessoaBlueprint.render(@pessoas, view: :para_controller), status: :ok
+    render json: PessoaBlueprint.render(@pessoas, view: :normal), status: :ok
   end
 
   # GET /pessoas/1
   def show
     @pessoa = Pessoa.find(params[:id])
-    render json: PessoaBlueprint.render(@pessoa, view: :para_controller)
+    render json: PessoaBlueprint.render(@pessoa, view: :normal)
   end
 
   # POST /pessoas
   def create
-    validador = PessoaContrato.new.call(params[:pessoa].to_h)
+    validador = PessoaContrato.new.call(pessoa_params.to_h)
     if validador.success?
       @pessoa = Pessoa.create!(validador.to_h)
-      render json: PessoaBlueprint.render(@pessoa, view: :para_controller), status: :created
+      render json: PessoaBlueprint.render(@pessoa, view: :normal), status: :created
     else
       render json: { erros: validador.errors.to_h }, status: :unprocessable_entity
     end
@@ -28,11 +28,11 @@ class PessoasController < ApplicationController
 
   # PATCH/PUT /pessoas/1
   def update
-    validador = PessoaContrato.new.call(params[:pessoa].to_h)
+    validador = PessoaContrato.new.call(pessoa_params.to_h)
 
     if validador.success?
       @pessoa.update!(validador.to_h)
-      render json: PessoaBlueprint.render(@pessoa, view: :para_controller), status: :ok
+      render json: PessoaBlueprint.render(@pessoa, view: :normal), status: :ok
     else
       render json: { erros: validador.errors.to_h }, status: :unprocessable_entity
     end
@@ -48,11 +48,11 @@ class PessoasController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_pessoa
-      @pessoa = Pessoa.find(params.expect(:id))
+      @pessoa = Pessoa.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def pessoa_params
-      params.expect(pessoa: [ :nome, :idade ])
+      params.require(:pessoa).permit(:nome, :idade)
     end
 end

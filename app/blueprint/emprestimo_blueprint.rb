@@ -1,13 +1,13 @@
 class EmprestimoBlueprint < Blueprinter::Base
   identifier :id
-  fields :criado_em
+  field :criado_em
 
   view :normal do
     association :livro, blueprint: LivroBlueprint
-    association :pessoa, blueprint: PessoaBlueprint
+    association :pessoa, blueprint: PessoaBlueprint, view: :normal
   end
 
   view :para_livro_ou_pessoa do
-   fields :id
+   field :id
   end
 end

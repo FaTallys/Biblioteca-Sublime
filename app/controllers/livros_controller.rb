@@ -16,7 +16,7 @@ class LivrosController < ApplicationController
 
   # POST /livros
   def create
-    validador = LivroContrato.new.call(params[:livro].to_h)
+    validador = LivroContrato.new.call(livro_params.to_h)
     if validador.success?
       @livro = Livro.create!(validador.to_h)
       render json: LivroBlueprint.render(@livro), status: :created
@@ -27,7 +27,7 @@ class LivrosController < ApplicationController
 
   # PATCH/PUT /livros/1
   def update
-    validador = LivroContrato.new.call(params[:livro].to_h)
+    validador = LivroContrato.new.call(livro_params.to_h)
     if validador.success?
       @livro.update!(validador.to_h)
       render json: LivroBlueprint.render(@livro), status: :ok
@@ -46,11 +46,11 @@ class LivrosController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_livro
-      @livro = Livro.find(params.expect(:id))
+      @livro = Livro.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def livro_params
-      params.require(:livro).permit(:autor, :nome, :copias, :emprestar)
+      params.require(:livro).permit(:autor, :nome, :copias, :tipo_literario)
     end
 end

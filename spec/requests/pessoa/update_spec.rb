@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "get/show pessoa", type: :request do
+RSpec.describe "patch/put pessoa", type: :request do
   context "quando alterar uma pessoa" do
     let! (:pessoa) { create(:pessoa) }
     it "entao altera a pessoa" do

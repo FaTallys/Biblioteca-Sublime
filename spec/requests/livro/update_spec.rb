@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "get/show livro", type: :request do
+RSpec.describe "patch/put livro", type: :request do
   let! (:livro) { create(:livro) }
   context "quando quiser alterar um livro" do
     it "entao altera o livro" do

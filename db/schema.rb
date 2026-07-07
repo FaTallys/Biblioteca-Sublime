@@ -10,7 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_29_135309) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_07_010247) do
+  create_table "cargos", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "nome"
+    t.datetime "updated_at", null: false
+  end
+
   create_table "emprestimos", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "data_devolucao"
@@ -33,12 +39,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_29_135309) do
   end
 
   create_table "pessoas", force: :cascade do |t|
+    t.integer "cargo_id"
     t.datetime "created_at", null: false
     t.integer "idade"
     t.string "nome"
     t.datetime "updated_at", null: false
+    t.index ["cargo_id"], name: "index_pessoas_on_cargo_id"
   end
 
   add_foreign_key "emprestimos", "livros"
   add_foreign_key "emprestimos", "pessoas"
+  add_foreign_key "pessoas", "cargos"
 end

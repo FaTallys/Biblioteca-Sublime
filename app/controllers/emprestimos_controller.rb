@@ -3,19 +3,22 @@ class EmprestimosController < ApplicationController
 
   # GET /emprestimos
   def index
-    @filtro = Emprestimo.ransack(params[:q])
-    @emprestimos = @filtro.result
+    @filtro = policy_scope(Emprestimo)
+    @q = @filtro.ransack(params[:q])
+    @emprestimos = @q.result
 
     render json: EmprestimoBlueprint.render(@emprestimos, view: :normal), status: :ok
   end
 
   # GET /emprestimos/1
   def show
+    authorize @emprestimo
     render json: EmprestimoBlueprint.render(@emprestimo, view: :normal), status: :ok
   end
 
   # POST /emprestimos
   def create
+    authorize Emprestimo, create?
     validador = EmprestimoContrato.new.call(emprestimo_params.to_h)
     if validador.success?
       @emprestimo = Emprestimos::CriarEmprestimo.new(
@@ -31,6 +34,7 @@ class EmprestimosController < ApplicationController
 
   # PATCH/PUT /emprestimos/1
   def update
+    authorize @emprestimo
     validador = EmprestimoContrato.new.call(emprestimo_params.to_h)
     if validador.success?
       @emprestimo.update!(validador.to_h)
@@ -42,6 +46,7 @@ class EmprestimosController < ApplicationController
 
   # DELETE /emprestimos/1
   def destroy
+    authorize @emprestimo
   Emprestimos::DevolverEmprestimo.new(@emprestimo.id).call
   head :no_content
   end
@@ -49,7 +54,7 @@ class EmprestimosController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_emprestimo
-      @emprestimo = Emprestimo.find(params[:id])
+      @emprestimo = policy_scope(Emprestimo).find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.

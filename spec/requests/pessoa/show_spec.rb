@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "show pessoa", type: :request do
+RSpec.describe "get/show pessoa", type: :request do
   context "quando quiser mostrar apenas uma pessoa" do
     let! (:pessoa) { create(:pessoa) }
     it "entao mostra a pessoa" do

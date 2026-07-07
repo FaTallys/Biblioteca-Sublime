@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "get/index", type: :request do
+RSpec.describe "get/index pessoas", type: :request do
   let! (:pessoa) { create(:pessoa) }
   context "quando quiser listar pessoas" do
     it "entao retorna a lista de pessoas" do

@@ -3,20 +3,23 @@ class PessoasController < ApplicationController
 
   # GET /pessoas
   def index
-    @filtro = Pessoa.ransack(params[:q])
-    @pessoas = @filtro.result
+    @filtro = policy_scope(Pessoa)
+    @q = @filtro.ransack(params[:q])
+    @pessoas = @q.result
 
     render json: PessoaBlueprint.render(@pessoas, view: :normal), status: :ok
   end
 
   # GET /pessoas/1
   def show
-    @pessoa = Pessoa.find(params[:id])
+    authorize @pessoa
+
     render json: PessoaBlueprint.render(@pessoa, view: :normal)
   end
 
   # POST /pessoas
   def create
+    authorize Livro, create?
     validador = PessoaContrato.new.call(pessoa_params.to_h)
     if validador.success?
       @pessoa = Pessoa.create!(validador.to_h)
@@ -28,6 +31,7 @@ class PessoasController < ApplicationController
 
   # PATCH/PUT /pessoas/1
   def update
+    authorize @pessoa
     validador = PessoaContrato.new.call(pessoa_params.to_h)
 
     if validador.success?
@@ -40,6 +44,7 @@ class PessoasController < ApplicationController
 
   # DELETE /pessoas/1
   def destroy
+    authorize @pessoa
     @pessoa.destroy!
 
     head :no_content
@@ -48,7 +53,7 @@ class PessoasController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_pessoa
-      @pessoa = Pessoa.find(params[:id])
+      @pessoa = policy_scope(Pessoa).find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.

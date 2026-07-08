@@ -23,7 +23,7 @@ attr_reader :pessoa, :livro
       if pessoa.admin? || pessoa.bibliotecario?
         scope.all
       else
-        scope.where(status_devolucao: [ devolvido, nil ])
+        scope.where(status_devolucao: [ :devolvido, nil ])
       end
     end
   end

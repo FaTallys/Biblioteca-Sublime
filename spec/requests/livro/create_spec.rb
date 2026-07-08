@@ -1,11 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe "create livro", type: :request do
+  subject(:create_livro) do
+    post livros_path, params: { livro: livro }
+  end
+  let(:livro) { attributes_for(:livro) }
+
   context "quando quiser criar livro" do
     it "entao cria o livro no db" do
-      livro = attributes_for(:livro)
-      post livros_path, params: { livro: livro }
-
+      create_livro
       expect(response).to have_http_status(:created)
     end
   end

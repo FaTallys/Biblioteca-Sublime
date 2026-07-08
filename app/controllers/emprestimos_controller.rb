@@ -18,7 +18,7 @@ class EmprestimosController < ApplicationController
 
   # POST /emprestimos
   def create
-    authorize Emprestimo, create?
+    authorize Emprestimo, :create?
     validador = EmprestimoContrato.new.call(emprestimo_params.to_h)
     if validador.success?
       @emprestimo = Emprestimos::CriarEmprestimo.new(

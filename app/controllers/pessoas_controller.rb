@@ -19,7 +19,7 @@ class PessoasController < ApplicationController
 
   # POST /pessoas
   def create
-    authorize Livro, create?
+    authorize Livro, :create?
     validador = PessoaContrato.new.call(pessoa_params.to_h)
     if validador.success?
       @pessoa = Pessoa.create!(validador.to_h)

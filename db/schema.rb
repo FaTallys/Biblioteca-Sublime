@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_07_010247) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_07_191541) do
   create_table "cargos", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "nome"
@@ -41,6 +41,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_07_010247) do
   create_table "pessoas", force: :cascade do |t|
     t.integer "cargo_id"
     t.datetime "created_at", null: false
+    t.string "encrypted_password", default: "", null: false
     t.integer "idade"
     t.string "nome"
     t.datetime "updated_at", null: false

@@ -3,6 +3,8 @@ class Pessoa < ApplicationRecord
   has_many :livros, through: :emprestimos
   belongs_to :cargo
 
+  devise :database_authenticatable
+
   include PessoaRoles
 
   def self.ransackable_attributes (auth_object = nil)

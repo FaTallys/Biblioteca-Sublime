@@ -1,5 +1,9 @@
 FactoryBot.define do
   factory :cargo do
-    nome { "MyString" }
+    nome { "admin" }
+  end
+
+  trait :leitor do
+    nome { "leitor" }
   end
 end

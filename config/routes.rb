@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   resources :emprestimos
+  devise_for :pessoas
   resources :pessoas
   resources :livros
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

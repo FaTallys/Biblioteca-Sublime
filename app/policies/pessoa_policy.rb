@@ -27,7 +27,13 @@ class PessoaPolicy < ApplicationPolicy
   end
 
   def destroy?
-    pessoa.admin?
+    if pessoa.admin?
+      true
+    elsif pessoa.bibliotecario?
+      registro.leitor?
+    else
+      false
+    end
   end
 
   class Scope < ApplicationPolicy::Scope

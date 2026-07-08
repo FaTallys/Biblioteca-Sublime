@@ -1,9 +1,9 @@
 class PessoaPolicy < ApplicationPolicy
-  attr_reader :emprestimo, :registro
+  attr_reader :pessoa, :emprestimo
 
-  def initialize(emprestimo, registro)
-    @emprestimo = emprestimo
-    @registro = registro
+  def initialize(pessoa, emprestimo)
+    @pessoa = pessoa
+    @remprestimo = emprestimo
   end
 
   def create?
@@ -20,12 +20,10 @@ class PessoaPolicy < ApplicationPolicy
 
   class Scope < ApplicationPolicy::Scope
     def resolve
-      if pessoa.admin?
+      if pessoa.admin? || pessoa.bibliotecario?
         scope.all
-      elsif pessoa.bibliotecario?
-        scope.where(status_devolucao: [ :ativo, :emprestado ])
       else
-        scope.join(pessoa).where(pessoa_id: pessoa.id, status_devolucao: [ :ativo, :emprestado ])
+        scope.where(pessoa_id: pessoa.id, status_devolucao: [ :ativo, :emprestado ])
       end
     end
   end

@@ -1,5 +1,6 @@
 class LivrosController < ApplicationController
   before_action :set_livro, only: %i[ show update destroy ]
+  before_action :authenticate_pessoa!, only: [ :create, :update, :destroy ]
 
   # GET /livros
   def index

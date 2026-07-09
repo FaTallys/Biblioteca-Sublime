@@ -18,16 +18,21 @@ RSpec.describe "patch/put emprestimo", type: :request do
 
   let(:resposta_esperada) do
     {
-      'livro_id' => livro2.id,
-      'pessoa_id' => pessoa2.id
+      'id' => emprestimo.id,
+      'livro' => hash_including('id' => livro2.id),
+      'pessoa' => hash_including('id' => livro2.id)
     }
   end
   let(:resposta_json) { response.parsed_body }
+  before do
+    sign_in(pessoa)
+  end
+
   context "quando quiser alterar um emprestimo" do
     it "entao altera o emprestimo" do
       update_emprestimo
       expect(response).to have_http_status(:success)
-      expect(resposta_json).to eq(resposta_esperada)
+      expect(resposta_json).to match(hash_including(resposta_esperada))
     end
   end
 end

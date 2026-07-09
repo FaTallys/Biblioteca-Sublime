@@ -8,6 +8,10 @@ RSpec.describe "delete emprestimo", type: :request do
   let! (:pessoa) { create(:pessoa) }
   let!(:emprestimo) { Emprestimo.create(livro: livro, pessoa: pessoa) }
 
+  before do
+    sign_in(pessoa)
+  end
+
   context "quando deletar emprestimo" do
     it "entao deleta o emprestimo" do
       emprestimo

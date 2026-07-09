@@ -5,6 +5,13 @@ class PessoaPolicy < ApplicationPolicy
     @pessoa = pessoa
     @registro = registro
   end
+  def index?
+    pessoa&.admin? || pessoa&.bibliotecario?
+  end
+
+  def show?
+    pessoa&.admin? || pessoa&.bibliotecario?
+  end
 
   def create?
     return true if pessoa.admin?
@@ -27,7 +34,7 @@ class PessoaPolicy < ApplicationPolicy
   end
 
   def destroy?
-    if pessoa.admin?
+    if pessoa&.admin?
       true
     elsif pessoa.bibliotecario?
       registro.leitor?
@@ -37,6 +44,10 @@ class PessoaPolicy < ApplicationPolicy
   end
 
   class Scope < ApplicationPolicy::Scope
+    def pessoa
+      user
+    end
+
     def resolve
       if pessoa.admin?
         scope.all

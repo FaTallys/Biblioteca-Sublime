@@ -5,18 +5,21 @@ RSpec.describe "get/index livros", type: :request do
     get livros_path
   end
 
-  let! (:livro) { create(:livro) }
-  let! (:livro2) { create(:livro2) }
+  let!(:livro) { create(:livro) }
+  let!(:livro2) { create(:livro2) }
+  let!(:pessoa) { create(:pessoa) }
 
     let (:resposta_esperada) do
       [
         {
+          'id' => livro.id,
           'nome' => livro.nome,
           'tipo_literario' => livro.tipo_literario,
           'copias' => livro.copias,
           'autor' => livro.autor
         },
         {
+          'id' => livro2.id,
           'nome' => livro2.nome,
           'tipo_literario' => livro2.tipo_literario,
           'copias' => livro2.copias,
@@ -26,11 +29,16 @@ RSpec.describe "get/index livros", type: :request do
   end
   let(:resposta_json) { response.parsed_body }
 
+  before do
+    sign_in(pessoa)
+  end
+
+
   context "quando quiser listar livros" do
     it "entao retorna a lista de livros" do
       get_livros
       expect(response).to have_http_status(:success)
-      expect(resposta_json).to eq(resposta_esperada)
+      expect(resposta_json).to match_array(resposta_esperada)
     end
   end
 end

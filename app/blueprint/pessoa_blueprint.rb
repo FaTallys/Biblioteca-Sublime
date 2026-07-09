@@ -4,6 +4,6 @@ class PessoaBlueprint < Blueprinter::Base
     association :emprestimos, blueprint: EmprestimoBlueprint, view: :para_livro_ou_pessoa
   end
   view :normal do
-    fields :nome, :idade
+    fields :nome, :idade, :email
   end
 end

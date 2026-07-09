@@ -1,24 +1,43 @@
-class PessoaPolicy < ApplicationPolicy
+class EmprestimoPolicy < ApplicationPolicy
   attr_reader :pessoa, :emprestimo
 
   def initialize(pessoa, emprestimo)
     @pessoa = pessoa
-    @remprestimo = emprestimo
+    @emprestimo = emprestimo
+  end
+
+  def index?
+    return true if pessoa.admin? || pessoa.bibliotecario?
+
+    if pessoa.leitor
+      @emprestimo
+    end
+  end
+
+  def show?
+    return true if pessoa.admin? || pessoa.bibliotecario?
+
+    if pessoa.leitor
+      @emprestimo
+    end
   end
 
   def create?
-    pessoa.admin? || pessoa.bibliotecario?
+    pessoa&.admin? || pessoa&.bibliotecario?
   end
 
   def update?
-    pessoa.admin? || pessoa.bibliotecario?
+    pessoa&.admin? || pessoa&.bibliotecario?
   end
 
   def destroy?
-    pessoa.admin? || pessoa.bibliotecario?
+    pessoa&.admin? || pessoa&.bibliotecario?
   end
 
   class Scope < ApplicationPolicy::Scope
+    def pessoa
+      user
+    end
     def resolve
       if pessoa.admin? || pessoa.bibliotecario?
         scope.all

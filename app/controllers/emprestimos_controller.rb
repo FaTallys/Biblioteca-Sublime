@@ -1,5 +1,6 @@
 class EmprestimosController < ApplicationController
   before_action :set_emprestimo, only: %i[ show update destroy ]
+  before_action :authenticate_pessoa!
 
   # GET /emprestimos
   def index

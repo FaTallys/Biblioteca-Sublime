@@ -1,5 +1,6 @@
 class PessoasController < ApplicationController
   before_action :set_pessoa, only: %i[ show update destroy ]
+  before_action :authenticate_pessoa!
 
   # GET /pessoas
   def index
@@ -19,8 +20,9 @@ class PessoasController < ApplicationController
 
   # POST /pessoas
   def create
-    authorize Livro, :create?
-    validador = PessoaContrato.new.call(pessoa_params.to_h)
+    authorize Pessoa, :create?
+    dados_validador = pessoa_params.to_h.deep_symbolize_keys
+    validador = PessoaContrato.new.call(dados_validador)
     if validador.success?
       @pessoa = Pessoa.create!(validador.to_h)
       render json: PessoaBlueprint.render(@pessoa, view: :normal), status: :created
@@ -32,7 +34,8 @@ class PessoasController < ApplicationController
   # PATCH/PUT /pessoas/1
   def update
     authorize @pessoa
-    validador = PessoaContrato.new.call(pessoa_params.to_h)
+    dados_validador = pessoa_params.to_h.deep_symbolize_keys
+    validador = PessoaContrato.new.call(dados_validador)
 
     if validador.success?
       @pessoa.update!(validador.to_h)
@@ -58,6 +61,6 @@ class PessoasController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def pessoa_params
-      params.require(:pessoa).permit(:nome, :idade)
+      params.require(:pessoa).permit(:nome, :idade, :email, :password, :password_confirmation, :cargo_id)
     end
 end

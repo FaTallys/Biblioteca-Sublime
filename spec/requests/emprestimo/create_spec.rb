@@ -6,6 +6,11 @@ RSpec.describe "create emprestimo", type: :request do
   end
   let! (:pessoa) { create(:pessoa) }
   let! (:livro) { create(:livro) }
+
+  before do
+    sign_in(pessoa)
+  end
+
   context "quando quiser criar emprestimo" do
     it "entao cria o emprestimo" do
       create_emprestimo

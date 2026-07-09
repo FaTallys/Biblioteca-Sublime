@@ -8,6 +8,6 @@ class EmprestimoBlueprint < Blueprinter::Base
   end
 
   view :para_livro_ou_pessoa do
-   field :id
+   fields :id
   end
 end

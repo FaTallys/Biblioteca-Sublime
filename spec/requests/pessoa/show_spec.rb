@@ -2,18 +2,24 @@ require 'rails_helper'
 
 RSpec.describe "get/show pessoa", type: :request do
   subject(:get_pessoa) do
-    get pessoa_path(pessoa.id)
+    get pessoa_path(pessoa2.id)
   end
 
-  let!(:pessoa) { create(:pessoa) }
     let(:resposta_esperada) do
       {
-        'nome' => pessoa.nome,
-        'idade' => pessoa.idade,
-        'cargo' => pessoa.cargo
+        'id' => pessoa2.id,
+        'nome' => pessoa2.nome,
+        'idade' => pessoa2.idade,
+        'email' => pessoa2.email
       }
   end
     let(:resposta_json) { response.parsed_body }
+    let!(:pessoa) { create(:pessoa) }
+    let!(:pessoa2) { create(:pessoa2) }
+
+    before do
+      sign_in(pessoa)
+    end
 
   context "quando quiser mostrar apenas uma pessoa" do
     it "entao mostra a pessoa" do

@@ -5,6 +5,12 @@ RSpec.describe "delete pessoa", type: :request do
     delete pessoa_path(pessoa.id)
   end
 
+  let!(:pessoa) { create(:pessoa) }
+
+  before do
+    sign_in(pessoa)
+  end
+
   let! (:pessoa) { create(:pessoa) }
   context "quando quiser deletar pessoa" do
     it "entao deleta pessoa" do

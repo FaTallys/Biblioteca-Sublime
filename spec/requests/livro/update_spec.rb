@@ -14,7 +14,12 @@ RSpec.describe "patch/put livro", type: :request do
     'nome'=> livro2.nome,
     'tipo_literario' => livro2.tipo_literario,
     'copias' => livro2.copias,
-    'autor' => livro2.autor
+    'autor' => livro2.autor,
+    'editora' => {
+      'id' => livro.editora.id,
+      'nome' => livro.editora.nome,
+      'data_fundacao' => livro.editora.data_fundacao.to_s
+      }
     }
   end
   let (:resposta_json) { response.parsed_body }

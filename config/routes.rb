@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :editoras
   resources :emprestimos
   devise_for :pessoas
   # resources :pessoas

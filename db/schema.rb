@@ -10,9 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_08_211623) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_13_154945) do
   create_table "cargos", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.string "nome"
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "editoras", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.date "data_fundacao"
     t.string "nome"
     t.datetime "updated_at", null: false
   end
@@ -32,10 +39,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_08_211623) do
     t.string "autor"
     t.integer "copias"
     t.datetime "created_at", null: false
+    t.integer "editora_id"
     t.boolean "emprestar"
     t.string "nome"
     t.string "tipo_literario"
     t.datetime "updated_at", null: false
+    t.index ["editora_id"], name: "index_livros_on_editora_id"
   end
 
   create_table "pessoas", force: :cascade do |t|
@@ -56,5 +65,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_08_211623) do
 
   add_foreign_key "emprestimos", "livros"
   add_foreign_key "emprestimos", "pessoas"
+  add_foreign_key "livros", "editoras"
   add_foreign_key "pessoas", "cargos"
 end

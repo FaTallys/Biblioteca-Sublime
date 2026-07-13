@@ -15,7 +15,13 @@ RSpec.describe "get/show livro", type: :request do
     'copias' => livro.copias,
     'autor' => livro.autor,
     'emprestimos' => [],
-    'pessoas' => []
+    'pessoas' => [],
+    'editora' => {
+      'id' => livro.editora.id,
+      'nome' => livro.editora.nome,
+      'data_fundacao' => livro.editora.data_fundacao.to_s
+      }
+
     }
   end
   let(:resposta_json) { response.parsed_body }

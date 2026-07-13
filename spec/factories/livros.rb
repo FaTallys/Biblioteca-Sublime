@@ -4,6 +4,7 @@ FactoryBot.define do
         copias { 3 }
         autor { "Joao Gabriel Paulsen" }
         tipo_literario { "contos e poesia" }
+        editora
 
         trait :sem_copias do
         copias { 0 }
@@ -14,6 +15,7 @@ FactoryBot.define do
         copias { 4 }
         autor { "Antoine" }
         tipo_literario { "infantil" }
+        editora { nil }
         end
     end
 end

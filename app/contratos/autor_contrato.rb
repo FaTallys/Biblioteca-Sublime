@@ -5,7 +5,7 @@ class AutorContrato < Dry::Validation::Contract
   end
   rule(:livros_attributes) do
     value.each do |livro|
-      resultado = LivroContrato.new.call(livro)
+      LivroContrato.new.call(livro)
     end
   end
 end

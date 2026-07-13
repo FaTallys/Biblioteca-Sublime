@@ -13,13 +13,16 @@ RSpec.describe "get/show livro", type: :request do
     'nome'=> livro.nome,
     'tipo_literario' => livro.tipo_literario,
     'copias' => livro.copias,
-    'autor' => livro.autor,
     'emprestimos' => [],
     'pessoas' => [],
     'editora' => {
       'id' => livro.editora.id,
       'nome' => livro.editora.nome,
       'data_fundacao' => livro.editora.data_fundacao.to_s
+      },
+      'autor' => {
+        'id' => livro.autor.id,
+        'nome' => livro.autor.nome
       }
 
     }

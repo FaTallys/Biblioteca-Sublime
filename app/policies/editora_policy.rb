@@ -3,7 +3,7 @@ class EditoraPolicy < ApplicationPolicy
 
   def initialize(pessoa, editora)
     @pessoa = pessoa
-    @editroa = editora
+    @editora = editora
   end
 
   def index?

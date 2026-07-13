@@ -5,8 +5,8 @@ RSpec.describe "get/index emprestimos", type: :request do
     get emprestimos_path
   end
   let!(:livro) { create(:livro) }
-  let!(:pessoa) { create(:pessoa) }
   let!(:livro2) { create(:livro2) }
+  let!(:pessoa) { create(:pessoa) }
   let!(:pessoa2) { create(:pessoa2) }
   let!(:pessoa3) { create(:pessoa4) }
   let!(:emprestimo) { create(:emprestimo, livro: livro, pessoa: pessoa3, status_devolucao: :ativo) }

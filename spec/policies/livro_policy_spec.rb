@@ -4,7 +4,6 @@ RSpec.describe LivroPolicy, type: :policy do
   let(:livro) { create(:livro) }
   let(:livro2) { create(:livro2) }
 
-
   let(:admin) { create(:pessoa) }
   let(:bibliotecario) { create(:pessoa3) }
   let(:leitor) { create(:pessoa2) }
@@ -20,23 +19,23 @@ RSpec.describe LivroPolicy, type: :policy do
   end
 
   permissions :create?, :new?, :update?, :edit? do
-    it "permite o acesso para administradores" do
+    it "permite o acesso para administrador e bibliotecario" do
       expect(subject).to permit(admin, livro)
       expect(subject).to permit(bibliotecario, livro)
     end
 
-    it "nega o acesso para leitores comuns" do
+    it "nega o acesso para leitor" do
       expect(subject).not_to permit(leitor, livro)
     end
   end
 
   permissions :destroy? do
-    it "permite que apenas o administrador delete um livro" do
+    it "permite que apenas o administrador e bibliotecaro delete um livro" do
       expect(subject).to permit(admin, livro)
       expect(subject).to permit(bibliotecario, livro2)
     end
 
-    it "nega a exclusão para leitores" do
+    it "nega a exclusão para leitor" do
       expect(subject).not_to permit(leitor, livro)
     end
   end

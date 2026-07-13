@@ -11,8 +11,8 @@ RSpec.describe "patch/put emprestimo", type: :request do
   end
 
   let! (:livro) { create(:livro) }
-  let! (:pessoa) { create(:pessoa) }
   let! (:livro2) { create(:livro2) }
+  let! (:pessoa) { create(:pessoa) }
   let! (:pessoa2) { create(:pessoa2) }
   let!(:emprestimo) { Emprestimo.create(livro: livro, pessoa: pessoa) }
 

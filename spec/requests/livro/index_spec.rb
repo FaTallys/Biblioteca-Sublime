@@ -16,14 +16,30 @@ RSpec.describe "get/index livros", type: :request do
           'nome' => livro.nome,
           'tipo_literario' => livro.tipo_literario,
           'copias' => livro.copias,
-          'autor' => livro.autor
+          'editora' => {
+            'id' => livro.editora.id,
+            'nome' => livro.editora.nome,
+            'data_fundacao' => livro.editora.data_fundacao.to_s
+          },
+          'autor' => {
+            'id' => livro.autor.id,
+            'nome' => livro.autor.nome
+      }
         },
         {
           'id' => livro2.id,
           'nome' => livro2.nome,
           'tipo_literario' => livro2.tipo_literario,
           'copias' => livro2.copias,
-          'autor' => livro2.autor
+          'editora' => {
+            'id' => livro2.editora.id,
+            'nome' => livro2.editora.nome,
+            'data_fundacao' => livro2.editora.data_fundacao.to_s
+          },
+          'autor' => {
+            'id' => livro2.autor.id,
+            'nome' => livro2.autor.nome
+      }
         }
       ]
   end

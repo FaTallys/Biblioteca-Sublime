@@ -1,9 +1,10 @@
 class LivroContrato < Dry::Validation::Contract
   params do
     required(:nome).filled(:string)
-    required(:autor).filled(:string)
     required(:tipo_literario).filled(:string)
     required(:copias).filled(:integer)
+    optional(:autor_id).maybe(:integer)
+    optional(:editora_id).maybe(:integer)
   end
 
   rule (:copias) do

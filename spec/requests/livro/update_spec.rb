@@ -6,7 +6,7 @@ RSpec.describe "patch/put livro", type: :request do
   end
 
   let!(:livro) { create(:livro) }
-  let(:livro2) { build(:livro2) }
+  let(:livro2) { build(:livro2, editora: livro.editora) }
   let!(:pessoa) { create(:pessoa) }
 
   let (:resposta_esperada) do {
@@ -14,7 +14,15 @@ RSpec.describe "patch/put livro", type: :request do
     'nome'=> livro2.nome,
     'tipo_literario' => livro2.tipo_literario,
     'copias' => livro2.copias,
-    'autor' => livro2.autor
+    'editora' => {
+      'id' => livro.editora.id,
+      'nome' => livro.editora.nome,
+      'data_fundacao' => livro.editora.data_fundacao.to_s
+      },
+      'autor' => {
+        'id' => livro.autor.id,
+        'nome' => livro.autor.nome
+      }
     }
   end
   let (:resposta_json) { response.parsed_body }

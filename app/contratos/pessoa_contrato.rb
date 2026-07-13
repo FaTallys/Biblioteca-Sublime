@@ -6,6 +6,7 @@ class PessoaContrato < Dry::Validation::Contract
     required(:password).filled(:string)
     required(:password_confirmation).filled(:string)
     required(:cargo_id).filled(:integer)
+    optional(:editora_id).maybe(:integer)
   end
   rule(:idade) do
     if value < 12

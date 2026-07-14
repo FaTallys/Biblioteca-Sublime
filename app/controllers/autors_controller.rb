@@ -16,7 +16,7 @@ class AutorsController < ApplicationController
 
   # POST /autors
   def create
-    authorize Autor, create?
+    authorize Autor, :create?
     validador = AutorContrato.new.call(autor_params.to_h)
 
     if validador.success?

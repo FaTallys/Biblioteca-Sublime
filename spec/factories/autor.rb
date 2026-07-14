@@ -3,7 +3,7 @@ FactoryBot.define do
     nome { "joao gabriel paulsen" }
 
     factory :autor2 do
-      nome { "antoine" }
+      nome { "antoine roquetin" }
     end
   end
 end

@@ -37,7 +37,7 @@ RSpec.describe "get/show livro", type: :request do
     it "entao retorna o livro" do
       get_livro
       expect(response).to have_http_status(:success)
-      expect(resposta_json).to match_array(resposta_esperada)
+      expect(resposta_json).to eq(resposta_esperada)
     end
   end
 end

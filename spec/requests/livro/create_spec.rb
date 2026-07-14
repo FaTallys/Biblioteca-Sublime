@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "create livro", type: :request do
   subject(:create_livro) do
-  post livros_path, params: { livro: livro }, as: :json
+  post livros_path, params: { livro: livro }
   end
 
   let(:livro) { attributes_for(:livro) }
